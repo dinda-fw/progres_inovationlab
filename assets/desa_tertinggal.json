@@ -1,0 +1,23 @@
+[
+  {
+    "nama_desa": "Desa Karangrejo",
+    "latitude": -7.450735,
+    "longitude": 112.712244,
+    "status": "Tertinggal",
+    "kategori": "Desa Tertinggal"
+  },
+  {
+    "nama_desa": "Desa Tambakrejo",
+    "latitude": -7.302221,
+    "longitude": 112.684516,
+    "status": "Berkembang",
+    "kategori": "Pendidikan"
+  },
+  {
+    "nama_desa": "Desa Wonokromo",
+    "latitude": -7.293826,
+    "longitude": 112.734719,
+    "status": "Mandiri",
+    "kategori": "Sanitasi"
+  }
+]

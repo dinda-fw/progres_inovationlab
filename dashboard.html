@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - WebGIS SDGs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 450px;
+      width: 100%;
+      border-radius: 0.5rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col font-sans">
+  <div class="flex flex-grow">
+    
+    <aside class="w-48 bg-white p-4 shadow-lg border-r border-gray-200">
+      <h2 class="text-md font-bold">Filter Kategori</h2>
+      <ul class="my-2 mb-8">
+        <li class="mb-2">
+          <input type="checkbox" id="filterPendidikan" value="Pendidikan" checked />
+          Pendidikan
+        </li>
+        <li class="mb-2">
+          <input type="checkbox" id="filterKesehatan" value="Sanitasi" checked />
+          Kesehatan
+        </li>
+        <li class="mb-2">
+          <input type="checkbox" id="filterLingkungan" value="Desa Tertinggal" checked />
+          Lingkungan
+        </li>
+      </ul>
+      <a href="login.html" class="text-sm bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-200">Logout</a>
+    </aside>
+
+    
+    <main class="flex-grow flex flex-col items-center px-4 py-8 text-center">
+      <h1 class="text-3xl font-bold">Dashboard</h1>
+      <div id="map"></div>
+      <section class="mt-6">
+        <h3 class="text-lg font-semibold">Detail Lokasi (Contoh)</h3>
+        <p>Nama: Universitas Negeri Surabaya</p>
+        <p>Kategori: Pendidikan</p>
+        <p>Progress SDGs: 98%</p>
+      </section>
+    </main>
+  </div>
+
+  
+  <footer class="bg-white border-t text-center py-4 text-sm text-gray-500">
+    Sumber Data: BPS, data.go.id, HDX | &copy; 2025 Sustainable GIS Project
+    <p>&copy; 2025 WebGIS SDGs Tracker</p>
+  </footer>
+
+  
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([-7.3082, 112.6568], 11);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const markers = L.layerGroup().addTo(map);
+    let dataDesa = [];
+
+    
+    const iconPendidikan = L.icon({
+      iconUrl: 'assets/pendidikan.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
+
+    const iconSanitasi = L.icon({
+      iconUrl: 'assets/sanitasi.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
+
+    const iconDesa = L.icon({
+      iconUrl: 'assets/desa.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
+
+    function renderMarkers() {
+      markers.clearLayers();
+      const aktifKategori = [];
+      if (document.getElementById('filterPendidikan').checked) aktifKategori.push("Pendidikan");
+      if (document.getElementById('filterKesehatan').checked) aktifKategori.push("Sanitasi");
+      if (document.getElementById('filterLingkungan').checked) aktifKategori.push("Desa Tertinggal");
+
+      dataDesa.forEach(desa => {
+        if (aktifKategori.includes(desa.kategori)) {
+          let iconKategori = iconDesa;
+          if (desa.kategori === "Pendidikan") iconKategori = iconPendidikan;
+          else if (desa.kategori === "Sanitasi") iconKategori = iconSanitasi;
+
+          const marker = L.marker([desa.latitude, desa.longitude], {
+            icon: iconKategori
+          }).addTo(markers);
+
+          marker.bindPopup(`
+            <strong>${desa.nama_desa}</strong><br>
+            Status: ${desa.status}<br>
+            Kategori: ${desa.kategori}<br>
+            SDGs Terkait: ${
+              desa.kategori === 'Pendidikan' ? 'Pendidikan untuk Semua' :
+              desa.kategori === 'Sanitasi' ? 'Air Bersih & Sanitasi Layak' :
+              'Pengurangan Ketimpangan'
+            }
+          `);
+        }
+      });
+    }
+
+    fetch('assets/desa_tertinggal.json')
+      .then(response => response.json())
+      .then(data => {
+        dataDesa = data;
+        renderMarkers();
+      })
+      .catch(err => console.error('Gagal load JSON:', err));
+
+    document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+      cb.addEventListener('change', renderMarkers);
+    });
+  </script>
+</body>
+</html>

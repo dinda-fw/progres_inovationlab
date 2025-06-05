@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Landing Page - WebGIS SDGs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col font-sans">
+
+  <header class="bg-white border-b shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <h1 class="text-xl font-bold text-indigo-700">WebGIS SDGs 🌎</h1>
+        <a href="index.html" class="text-sm bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition">Beranda</a>
+        <a href="dashboard.html" class="text-sm bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition">Peta</a>
+      </div>
+      <a href="login.html" class="text-sm bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">Logout</a>
+    </div>
+  </header>
+
+  <main class="flex-grow flex items-center justify-center px-4 py-16 text-center bg-gradient-to-b from-gray-100 to-white">
+    <div class="max-w-2xl">
+      <div class="text-6xl mb-6">🌎</div>
+      <h2 class="text-4xl font-bold text-gray-800 mb-4 leading-snug">
+        Selamat Datang di WebGIS SDGs Tracker
+      </h2>
+      <p class="text-gray-600 text-lg mb-8">
+        Pantau dan Visualisasikan data pembangunan berkelanjutan di daerahmu. Jelajahi peta interaktif dan bantu wujudkan masa depan yang lebih baik!
+      </p>
+      <a href="dashboard.html"
+        class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded shadow transition">
+        Lihat Peta Sekarang
+      </a>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t text-center py-4 text-sm text-gray-500">
+    Sumber Data: BPS, data.go.id, HDX | &copy; 2025 Sustainable GIS Project <br/>
+    &copy; 2025 WebGIS SDGs Tracker
+  </footer>
+
+</body>
+</html>
